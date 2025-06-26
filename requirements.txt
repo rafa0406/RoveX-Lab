@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# requirements.txt
+ursina
+perlin-noise
