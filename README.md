@@ -41,7 +41,7 @@ Lancement : Ouvrez le fichier index.html (ou l'URL de l'application) dans un nav
 
 Génération : Patientez quelques instants pendant que le terrain est généré. Vous pouvez suivre la progression dans la fenêtre de log sur la gauche.
 
-Contrôle :
+Contrôle manuel:
 
 Avancer : Touche ↑ ou bouton ▲.
 
@@ -50,6 +50,10 @@ Reculer : Touche ↓ ou bouton ▼.
 Tourner à gauche : Touche ← ou bouton ◀.
 
 Tourner à droite : Touche → ou bouton ▶.
+
+Contrôle API:
+
+Interface à définir.
 
 5. Vision Future
 La version actuelle est une base solide. Les prochaines grandes étapes de développement se concentreront sur la transformation de ce prototype en une véritable plateforme :
