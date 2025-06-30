@@ -32,3 +32,4 @@ class LogWindow:
         formatted_message = f'<{color_map.get(level, color.white)}>{message}<default>'
         self.log_messages.append(formatted_message)
         self._update_display()
+        print(message)
