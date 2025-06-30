@@ -1,149 +1,25 @@
 {
-  "name": "RoverX_RockerBogie_V1",
-  "description": "Modèle de rover à 6 roues motrices et directrices avec une suspension de type Rocker-Bogie.",
+  "name": "RoverX_Assembly_Driven_V1",
+  "description": "Ce modèle fait le lien entre les noms de noeuds de l'assemblage GLTF et les fichiers de modèles individuels.",
   
-  "components": [
-    // --- 1. Le Châssis (Corps Principal) ---
-    {
-      "name": "chassis",
-      "type": "body",
-      "model": "cube",
-      "scale": [1.2, 0.4, 2.0],
-      "color": "e0e0e0",
-      "physics": {
-        "mass": 25.0,
-        "centerOfMass": [0, -0.1, 0]
-      },
-      "connectionNodes": [
-        { "id": "rocker_mount_left",  "anchor": [-0.6, 0, 0] },
-        { "id": "rocker_mount_right", "anchor": [0.6, 0, 0] }
-      ]
-    },
-
-    // --- 2. Les Bras de Suspension Principaux (Rockers) ---
-    {
-      "name": "rocker_left",
-      "type": "rocker_arm",
-      "model": "cube", "scale": [0.1, 0.1, 1.8], "color": "a0a0a0",
-      "physics": { "mass": 4.0 },
-      "connectionNodes": [
-        { "id": "pivot_chassis", "anchor": [0, 0, 0] },
-        { "id": "pivot_bogie",   "anchor": [0, 0, 0.9] },
-        { "id": "pivot_rear_wheel", "anchor": [0, 0, -0.9] }
-      ]
-    },
-    {
-      "name": "rocker_right",
-      "type": "rocker_arm",
-      "model": "cube", "scale": [0.1, 0.1, 1.8], "color": "a0a0a0",
-      "physics": { "mass": 4.0 },
-      "connectionNodes": [
-        { "id": "pivot_chassis", "anchor": [0, 0, 0] },
-        { "id": "pivot_bogie",   "anchor": [0, 0, 0.9] },
-        { "id": "pivot_rear_wheel", "anchor": [0, 0, -0.9] }
-      ]
-    },
-
-    // --- 3. Les Balanciers Avant (Bogies) ---
-    {
-      "name": "bogie_left",
-      "type": "bogie_arm",
-      "model": "cube", "scale": [0.1, 0.1, 1.2], "color": "c0c0c0",
-      "physics": { "mass": 3.0 },
-      "connectionNodes": [
-        { "id": "pivot_rocker", "anchor": [0, 0, 0] },
-        { "id": "pivot_front_wheel", "anchor": [0, 0, 0.6] },
-        { "id": "pivot_middle_wheel", "anchor": [0, 0, -0.6] }
-      ]
-    },
-    {
-      "name": "bogie_right",
-      "type": "bogie_arm",
-      "model": "cube", "scale": [0.1, 0.1, 1.2], "color": "c0c0c0",
-      "physics": { "mass": 3.0 },
-      "connectionNodes": [
-        { "id": "pivot_rocker", "anchor": [0, 0, 0] },
-        { "id": "pivot_front_wheel", "anchor": [0, 0, 0.6] },
-        { "id": "pivot_middle_wheel", "anchor": [0, 0, -0.6] }
-      ]
-    },
-
-    // --- 4. Les Pivots de Direction (Steering Knuckles) - 6x ---
-    {
-      "name": "steer_knuckle",
-      "type": "steering_knuckle",
-      "model": "cube", "scale": [0.1, 0.2, 0.1], "color": "f0f0f0",
-      "physics": { "mass": 0.5 },
-      "connectionNodes": [
-        { "id": "mount_suspension", "anchor": [0, 0.1, 0] },
-        { "id": "mount_axle", "anchor": [0, -0.1, 0] }
-      ]
-    },
-
-    // --- 5. Les Roues - 6x ---
-    {
-      "name": "wheel",
-      "type": "wheel",
-      "model": "cylinder", "scale": [0.55, 0.55, 0.2], "color": "404040",
-      "physics": {
-        "mass": 1.5,
-        "centerOfMass": [0, 0, 0],
-        "groundContact": {
-          "canTouch": true,
-          "contactRadius": 0.275,
-          "contactWidth": 0.2,
-          "friction": { "static": 0.9, "dynamic": 0.7 }
-        }
-      },
-      "connectionNodes": [
-        { "id": "hub", "anchor": [0, 0, 0] }
-      ]
-    }
-  ],
-  
-  "assembly": [
-    // === ASSEMBLAGE DE LA SUSPENSION PRINCIPALE (ROCKERS AU CHÂSSIS) ===
-    {
-      "name": "liaison_chassis_rocker_left",
-      "connects": { "component_A": "chassis", "node_A": "rocker_mount_left", "component_B": "rocker_left", "node_B": "pivot_chassis" },
-      "joint": {
-        "type": "revolute", "axis": [1, 0, 0],
-        "limits": { "min": -30, "max": 30 },
-        "forceModel": { "type": "spring_damper", "stiffness": 8000, "damping": 400 }
-      }
-    },
-    {
-      "name": "liaison_chassis_rocker_right",
-      "connects": { "component_A": "chassis", "node_A": "rocker_mount_right", "component_B": "rocker_right", "node_B": "pivot_chassis" },
-      "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": { "min": -30, "max": 30 }, "forceModel": { "type": "spring_damper", "stiffness": 8000, "damping": 400 } }
-    },
-
-    // === ASSEMBLAGE DES BALANCIERS (BOGIES AUX ROCKERS) ===
-    {
-      "name": "liaison_rocker_bogie_left",
-      "connects": { "component_A": "rocker_left", "node_A": "pivot_bogie", "component_B": "bogie_left", "node_B": "pivot_rocker" },
-      "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": { "min": -45, "max": 45 } }
-    },
-    {
-      "name": "liaison_rocker_bogie_right",
-      "connects": { "component_A": "rocker_right", "node_A": "pivot_bogie", "component_B": "bogie_right", "node_B": "pivot_rocker" },
-      "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": { "min": -45, "max": 45 } }
-    },
-
-    // === ASSEMBLAGE DES PIVOTS DE DIRECTION (KNUCKLES À LA SUSPENSION) - 6 LIAISONS ===
-    { "name": "liaison_knuckle_fl", "connects": { "component_A": "bogie_left", "node_A": "pivot_front_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-    { "name": "liaison_knuckle_fr", "connects": { "component_A": "bogie_right", "node_A": "pivot_front_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-    { "name": "liaison_knuckle_ml", "connects": { "component_A": "bogie_left", "node_A": "pivot_middle_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-    { "name": "liaison_knuckle_mr", "connects": { "component_A": "bogie_right", "node_A": "pivot_middle_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-    { "name": "liaison_knuckle_rl", "connects": { "component_A": "rocker_left", "node_A": "pivot_rear_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-    { "name": "liaison_knuckle_rr", "connects": { "component_A": "rocker_right", "node_A": "pivot_rear_wheel", "component_B": "steer_knuckle", "node_B": "mount_suspension" }, "joint": { "type": "revolute", "axis": [0, 1, 0], "limits": { "min": -35, "max": 35 } } },
-
-    // === ASSEMBLAGE DES ROUES (ROUES AUX PIVOTS DE DIRECTION) - 6 LIAISONS ===
-    { "name": "liaison_axle_fl", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } },
-    { "name": "liaison_axle_fr", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } },
-    { "name": "liaison_axle_ml", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } },
-    { "name": "liaison_axle_mr", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } },
-    { "name": "liaison_axle_rl", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } },
-    { "name": "liaison_axle_rr", "connects": { "component_A": "steer_knuckle", "node_A": "mount_axle", "component_B": "wheel", "node_B": "hub" }, "joint": { "type": "revolute", "axis": [1, 0, 0], "limits": null } }
+  "parts_mapping": [
+    { "id": "ROVER_V1 - chassis", "model": "assets/models/ROVER_V1/ROVER_V1 - chassis.gltf", "type": "body"},
+    { "id": "ROVER_V1 - rocker_arm_left", "model": "assets/models/ROVER_V1/ROVER_V1 - rocker_arm_left.gltf", "type": "rocker_arm"},
+    { "id": "ROVER_V1 - rocker_arm_right", "model": "assets/models/ROVER_V1/ROVER_V1 - rocker_arm_right.gltf", "type": "rocker_arm"},
+    { "id": "ROVER_V1 - bogie_arm_left", "model": "assets/models/ROVER_V1/ROVER_V1 - bogie_arm_left.gltf", "type": "bogie_arm"},
+    { "id": "ROVER_V1 - bogie_arm_right", "model": "assets/models/ROVER_V1/ROVER_V1 - bogie_arm_right.gltf", "type": "bogie_arm"},
+    { "id": "ROVER_V1 - weel_left_front", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_front.gltf", "type": "wheel"},
+    { "id": "ROVER_V1 - weel_right_front", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_front.gltf", "type": "wheel"},
+    { "id": "ROVER_V1 - weel_left_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_midle.gltf", "type": "wheel"},
+    { "id": "ROVER_V1 - weel_right_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_midle.gltf", "type": "wheel"},
+    { "id": "ROVER_V1 - weel_left_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_rear.gltf", "type": "wheel"},
+    { "id": "ROVER_V1 - weel_right_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_rear.gltf", "type": "wheel"},
+    
+    { "id": "knuckle_fl", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
+    { "id": "knuckle_fr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
+    { "id": "knuckle_ml", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
+    { "id": "knuckle_mr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
+    { "id": "knuckle_rl", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
+    { "id": "knuckle_rr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]}
   ]
 }

@@ -36,14 +36,17 @@ if __name__ == '__main__':
         
         obstacles = env_controller.place_obstacles(ground)
         
-        # --- DEBUT DE LA CORRECTION DEFINITIVE ---
-        # Suppression du raycast a l'initialisation qui n'est pas fiable.
-        # On cree le rover a une altitude GARANTIE d'etre au-dessus du terrain.
-        # La physique de gravite le fera atterrir en douceur.
         safe_spawn_pos = (0, 10, 0)
         log_window.log(f"Creation du rover a une altitude sure: {safe_spawn_pos}", "debug")
-        rover = Rover(ground=ground, obstacles=obstacles, logger=log_window, position=safe_spawn_pos)
-        # --- FIN DE LA CORRECTION DEFINITIVE ---
+        
+        rover = Rover(
+            ground=ground, 
+            obstacles=obstacles, 
+            logger=log_window, 
+            position=safe_spawn_pos,
+            assembly_path='assets/models/ROVER_V1/ROVER_V1.gltf',
+            parts_mapping_path='rover_model_V1.json'
+        )
             
         log_window.log("Simulation prete. Deplacement : fleches. Camera : Clic Droit + Souris, Molette", "success")
 
@@ -51,8 +54,6 @@ if __name__ == '__main__':
     def on_generation_complete():
         """ Cette fonction est appelee des que le maillage est genere. """
         log_window.log("Maillage du terrain termine. Initialisation de la physique...")
-        # On attend un tres court instant avant de lancer la simulation
-        # pour laisser le temps au moteur de finaliser le collider.
         invoke(start_simulation, delay=0.1)
 
     ground = Entity()

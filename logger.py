@@ -6,7 +6,11 @@ import config
 class LogWindow:
     def __init__(self):
         self.log_messages = deque(maxlen=config.MAX_LOG_MESSAGES)
+        
+        # --- CORRECTION ---
+        # Ajout de `parent=camera.ui` pour attacher le texte à l'interface 2D
         self.log_display = Text(
+            parent=camera.ui,
             origin=(-0.5, 0.5),
             position=(-0.98 * camera.aspect_ratio, 0.48),
             scale=(0.7, 0.7),
