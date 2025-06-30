@@ -30,7 +30,6 @@ if __name__ == '__main__':
     env_controller = EnvironmentController(logger=log_window)
 
     def start_simulation():
-        """ Cette fonction est appelee APRES que le collider du terrain soit pret. """
         global rover
         log_window.log("Creation des elements de simulation...")
         
@@ -39,20 +38,21 @@ if __name__ == '__main__':
         safe_spawn_pos = (0, 10, 0)
         log_window.log(f"Creation du rover a une altitude sure: {safe_spawn_pos}", "debug")
         
+        # --- MISE A JOUR ---
+        # Le chemin pointe maintenant vers le nouveau fichier d'assemblage
         rover = Rover(
             ground=ground, 
             obstacles=obstacles, 
             logger=log_window, 
             position=safe_spawn_pos,
-            assembly_path='assets/models/ROVER_V1/ROVER_V1.gltf',
+            assembly_path='assets/models/ROVER_V1/Rover_v1_Assembly.gltf',
             parts_mapping_path='rover_model_V1.json'
         )
             
-        log_window.log("Simulation prete. Deplacement : fleches. Camera : Clic Droit + Souris, Molette", "success")
+        log_window.log("Simulation prete. Deplacement : fleches.", "success")
 
 
     def on_generation_complete():
-        """ Cette fonction est appelee des que le maillage est genere. """
         log_window.log("Maillage du terrain termine. Initialisation de la physique...")
         invoke(start_simulation, delay=0.1)
 

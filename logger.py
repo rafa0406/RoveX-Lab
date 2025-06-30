@@ -8,7 +8,7 @@ class LogWindow:
         self.log_messages = deque(maxlen=config.MAX_LOG_MESSAGES)
         
         # --- CORRECTION ---
-        # Ajout de `parent=camera.ui` pour attacher le texte à l'interface 2D
+        # Ajout de `parent=camera.ui` pour que le texte s'affiche sur l'interface 2D
         self.log_display = Text(
             parent=camera.ui,
             origin=(-0.5, 0.5),
@@ -29,7 +29,6 @@ class LogWindow:
             'debug': color.yellow
         }
         
-        # Utilise les balises de couleur d'Ursina
         formatted_message = f'<{color_map.get(level, color.white)}>{message}<default>'
         self.log_messages.append(formatted_message)
         self._update_display()

@@ -1,6 +1,6 @@
 {
-  "name": "RoverX_Assembly_Driven_V1",
-  "description": "Ce modèle fait le lien entre les noms de noeuds de l'assemblage GLTF et les fichiers de modèles individuels.",
+  "name": "RoverX_Onshape_V2_Detailed",
+  "description": "Mapping des pièces CAO détaillées vers leurs modèles GLTF respectifs.",
   
   "parts_mapping": [
     { "id": "ROVER_V1 - chassis", "model": "assets/models/ROVER_V1/ROVER_V1 - chassis.gltf", "type": "body"},
@@ -8,18 +8,26 @@
     { "id": "ROVER_V1 - rocker_arm_right", "model": "assets/models/ROVER_V1/ROVER_V1 - rocker_arm_right.gltf", "type": "rocker_arm"},
     { "id": "ROVER_V1 - bogie_arm_left", "model": "assets/models/ROVER_V1/ROVER_V1 - bogie_arm_left.gltf", "type": "bogie_arm"},
     { "id": "ROVER_V1 - bogie_arm_right", "model": "assets/models/ROVER_V1/ROVER_V1 - bogie_arm_right.gltf", "type": "bogie_arm"},
+
+    { "id": "ROVER_V1 - knuckle_arm_left_front", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_left_front.gltf", "type": "knuckle_arm"},
+    { "id": "ROVER_V1 - knuckle_arm_left_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_left_midle.gltf", "type": "knuckle_arm"},
+    { "id": "ROVER_V1 - knuckle_arm_left_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_left_rear.gltf", "type": "knuckle_arm"},
+    { "id": "ROVER_V1 - knuckle_arm_right_front", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_right_front.gltf", "type": "knuckle_arm"},
+    { "id": "ROVER_V1 - knuckle_arm_right_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_right_midle.gltf", "type": "knuckle_arm"},
+    { "id": "ROVER_V1 - knuckle_arm_right_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_arm_right_rear.gltf", "type": "knuckle_arm"},
+
+    { "id": "ROVER_V1 - knuckle_weel_left_front", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_left_front.gltf", "type": "knuckle_weel"},
+    { "id": "ROVER_V1 - knuckle_weel_left_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_left_midle.gltf", "type": "knuckle_weel"},
+    { "id": "ROVER_V1 - knuckle_weel_left_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_left_rear.gltf", "type": "knuckle_weel"},
+    { "id": "ROVER_V1 - knuckle_weel_right_front", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_right_front.gltf", "type": "knuckle_weel"},
+    { "id": "ROVER_V1 - knuckle_weel_right_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_right_midle.gltf", "type": "knuckle_weel"},
+    { "id": "ROVER_V1 - knuckle_weel_right_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - knuckle_weel_right_rear.gltf", "type": "knuckle_weel"},
+
     { "id": "ROVER_V1 - weel_left_front", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_front.gltf", "type": "wheel"},
     { "id": "ROVER_V1 - weel_right_front", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_front.gltf", "type": "wheel"},
     { "id": "ROVER_V1 - weel_left_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_midle.gltf", "type": "wheel"},
     { "id": "ROVER_V1 - weel_right_midle", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_midle.gltf", "type": "wheel"},
     { "id": "ROVER_V1 - weel_left_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_left_rear.gltf", "type": "wheel"},
-    { "id": "ROVER_V1 - weel_right_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_rear.gltf", "type": "wheel"},
-    
-    { "id": "knuckle_fl", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
-    { "id": "knuckle_fr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
-    { "id": "knuckle_ml", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
-    { "id": "knuckle_mr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
-    { "id": "knuckle_rl", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]},
-    { "id": "knuckle_rr", "model": "cube", "type": "steering_knuckle", "scale": [0.05, 0.2, 0.05]}
+    { "id": "ROVER_V1 - weel_right_rear", "model": "assets/models/ROVER_V1/ROVER_V1 - weel_right_rear.gltf", "type": "wheel"}
   ]
 }
