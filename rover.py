@@ -19,7 +19,19 @@ class Rover(Entity):
 
         # On applique le collider à l'entité principale du Rover pour gérer la physique globale.
         self.collider = 'box'
-        # self.scale = (1.5, 0.5, 2.5) # Donnez une taille approximative pour le collider global
+        
+        # --- DEBUT DU TEST D'ORIENTATION ---
+        # On ajoute une "poutre" rouge vif qui pointe dans la direction self.forward
+        # pour vérifier visuellement l'orientation du rover.
+        Entity(
+            parent=self,
+            model='cube',
+            color=color.red,
+            scale=(0.05, 0.05, 4), # Longue et fine pour bien voir la direction
+            position=(0, 0.5, 2)  # On la décale un peu pour qu'elle soit bien visible
+        )
+        self.logger.log("Test d'orientation : Une poutre rouge indique la direction 'AVANT' du code.", "debug")
+        # --- FIN DU TEST D'ORIENTATION ---
 
         self._setup_parts_from_json(parts_mapping_path)
         
@@ -54,6 +66,12 @@ class Rover(Entity):
                 shader=lit_with_shadows_shader,
                 cast_shadows=True
             )
+
+            # --- PATCH D'ORIENTATION ---
+            # On applique une rotation de -90 degrés sur l'axe Y pour aligner
+            # l'avant du modèle (+X) avec l'avant du code (+Z).
+            part_entity.rotation_y = 90
+            # -------------------------
             
             self.instances[part_id] = part_entity
 
