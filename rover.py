@@ -6,11 +6,8 @@ import json
 
 class Rover(Entity):
     def __init__(self, ground, obstacles, logger, assembly_path, parts_mapping_path, **kwargs):
-        # Initialiser l'entité Rover avec l'assemblage complet
-        super().__init__(
-            model=assembly_path,
-            **kwargs
-        )
+        # On initialise une entité VIDE. Le modèle sera construit pièce par pièce.
+        super().__init__(**kwargs)
         
         self.ground = ground
         self.obstacles = obstacles
@@ -18,95 +15,106 @@ class Rover(Entity):
         
         self.instances = {}
         self.wheels = []
-        self.steering_joints = []
-        self.body = None
+        self.body = None # Sera défini lors de la configuration
 
-        self.rotation_y = -90 # Rotation initiale pour orienter le rover correctement
+        # On applique le collider à l'entité principale du Rover pour gérer la physique globale.
+        self.collider = 'box'
+        # self.scale = (1.5, 0.5, 2.5) # Donnez une taille approximative pour le collider global
 
-        self._setup_parts(parts_mapping_path)
+        self._setup_parts_from_json(parts_mapping_path)
         
-    def _setup_parts(self, parts_mapping_path):
-        self.logger.log("--- DEBUT DE LA CONFIGURATION DES PIECES ---", "info")
+    def _setup_parts_from_json(self, parts_mapping_path):
+        """
+        Cette nouvelle fonction lit le JSON et charge chaque pièce comme une entité distincte,
+        en la parentant à l'entité principale du Rover.
+        """
+        self.logger.log("--- DEBUT DE LA CONFIGURATION DES PIECES (Nouvelle Methode) ---", "info")
         
         try:
             with open(parts_mapping_path, 'r') as f:
                 parts_map_data = json.load(f)
-            parts_map = {item['id']: item for item in parts_map_data['parts_mapping']}
-            self.logger.log(f"Mapping pour {len(parts_map)} pièces chargé.", "success")
+            parts_mapping = parts_map_data['parts_mapping']
+            self.logger.log(f"Mapping pour {len(parts_mapping)} pièces chargé.", "success")
         except Exception as e:
             self.logger.log(f"ERREUR CRITIQUE: Impossible de lire le fichier de mapping '{parts_mapping_path}'. Erreur: {e}", "error")
             return
-            
-        # --- CORRECTION : Utilisation d'une fonction récursive ---
-        # Cette fonction va parcourir tous les descendants de l'entité principale
-        def configure_recursively(entity):
-            # Chercher une correspondance dans notre dictionnaire de pièces
-            part_info = parts_map.get(entity.name)
-            
-            if part_info:
-                self.logger.log(f"Configuration de la pièce : '{entity.name}'", "info")
-                
-                # Appliquer le modèle visuel, le shader, etc.
-                entity.model = part_info.get('model')
-                entity.shader = lit_with_shadows_shader
-                entity.cast_shadows = True
-                self.instances[entity.name] = entity
 
-                # Identifier les pièces importantes
-                if part_info.get('type') == 'body':
-                    self.body = entity
-                    self.body.collider = 'box'
-                    self.logger.log(f"-> Corps principal '{entity.name}' identifié.", "debug")
+        for part_info in parts_mapping:
+            part_id = part_info.get('id')
+            model_path = part_info.get('model')
+            part_type = part_info.get('type')
 
-                if part_info.get('type') == 'wheel':
-                    self.wheels.append(entity)
-                    self.logger.log(f"-> Roue '{entity.name}' identifiée.", "debug")
+            if not model_path:
+                self.logger.log(f"Aucun modèle trouvé pour la pièce '{part_id}' dans le JSON.", "error")
+                continue
+
+            part_entity = Entity(
+                parent=self,  # On parente la pièce à l'entité Rover
+                model=model_path,
+                shader=lit_with_shadows_shader,
+                cast_shadows=True
+            )
             
-            # Appel récursif pour les enfants de l'entité actuelle
-            for child in entity.children:
-                configure_recursively(child)
+            self.instances[part_id] = part_entity
 
-        # Démarrer la configuration récursive à partir de l'entité Rover elle-même
-        configure_recursively(self)
+            if part_type == 'body':
+                self.body = part_entity # On garde une référence, mais le collider est sur le parent
+                self.logger.log(f"-> Corps principal '{part_id}' identifié.", "debug")
+
+            if part_type == 'wheel':
+                self.wheels.append(part_entity)
+                self.logger.log(f"-> Roue '{part_id}' identifiée.", "debug")
 
         if not self.body:
-            self.logger.log("ERREUR CRITIQUE: Aucun corps ('body') n'a été trouvé pour le rover.", "error")
+            self.logger.log("ERREUR CRITIQUE: Le corps ('body') n'a pas été configuré. La physique sera désactivée.", "error")
+        else:
+            self.logger.log("Corps du rover trouvé. La physique et les contrôles sont activés.", "success")
         
         self.logger.log("--- FIN DE LA CONFIGURATION DES PIECES ---", "info")
 
 
     def update(self):
-        # Cette condition est cruciale et fonctionnera maintenant correctement
+        # Cette condition est maintenant la clé. Si le corps est trouvé, tout s'exécute.
         if not self.body: 
             return
 
-        rotation_input = held_keys['left arrow'] - held_keys['right arrow']
-        self.rotation_y += rotation_input * config.ROVER_ROTATION_SPEED * time.dt
-        
-        move_direction = held_keys['up arrow'] - held_keys['down arrow']
-        
-        if move_direction != 0:
-            move_vec = self.forward * move_direction * config.ROVER_SPEED * time.dt
-            self.position += move_vec
-            if self.body.intersects(ignore=[self, *self.instances.values()]).hit:
-                 self.position -= move_vec
-                 self.logger.log("Alerte: Collision!", "error")
-
+        # --- Physique : Gravité et adaptation au terrain ---
         ray = raycast(self.world_position + self.up*2, self.down, ignore=[self, *self.instances.values()], distance=10)
         
         if ray.hit and ray.entity == self.ground:
+            # Atterrissage en douceur et suivi du terrain
             target_y = ray.world_point.y + config.RIDE_HEIGHT
             self.y = lerp(self.y, target_y, time.dt * config.TERRAIN_FOLLOW_SMOOTHNESS)
             
+            # Adaptation de l'inclinaison du rover à la pente du terrain
             calculator = Entity(position=self.position, add_to_scene_entities=False)
             calculator.look_at(self.world_position + self.forward, up=ray.world_normal)
             target_quat = calculator.quaternion
             destroy(calculator)
             
             self.quaternion = slerp(self.quaternion, target_quat, time.dt * config.TERRAIN_ADAPTATION_SMOOTHNESS)
-        else: 
+        else:
+            # Si le rover est en l'air, la gravité s'applique
             self.y -= config.GRAVITY_STRENGTH * time.dt
+            
+        # --- Contrôles ---
+        rotation_input = held_keys['left arrow'] - held_keys['right arrow']
+        # Note : j'ai inversé le signe pour que la flèche droite tourne à droite.
+        self.rotation_y -= rotation_input * config.ROVER_ROTATION_SPEED * time.dt
+        
+        move_direction = held_keys['up arrow'] - held_keys['down arrow']
         
         if move_direction != 0:
+            move_vec = self.forward * move_direction * config.ROVER_SPEED * time.dt
+            # La détection de collision se fait sur l'entité principale qui a le collider
+            if self.intersects(ignore=[self, self.ground, *self.instances.values()]).hit:
+                 self.logger.log("Alerte: Collision!", "error")
+            else:
+                 self.position += move_vec
+
+        # --- Effet visuel : rotation des roues ---
+        if move_direction != 0:
             for wheel in self.wheels:
-                wheel.rotation_z -= move_direction * 200 * time.dt
+                # Note: 'rotation_z' est correct si vos roues sont modélisées "à plat".
+                # Sinon, vous pourriez avoir besoin de 'rotation_x' ou 'rotation_y'.
+                wheel.rotation_x -= move_direction * 200 * time.dt

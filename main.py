@@ -35,7 +35,7 @@ if __name__ == '__main__':
         
         obstacles = env_controller.place_obstacles(ground)
         
-        safe_spawn_pos = (0, 10, 0)
+        safe_spawn_pos = (0, 25, 0)
         log_window.log(f"Creation du rover a une altitude sure: {safe_spawn_pos}", "debug")
         
         # --- MISE A JOUR ---
