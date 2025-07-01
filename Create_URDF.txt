@@ -1,0 +1,4 @@
+Modifier le fichier /my-robot/config.txt en ajoutant l'url de votre model d'assemblage Onshape du robot
+
+Puis lancer la commande:
+onshape-to-robot my-robot
