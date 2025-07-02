@@ -2,3 +2,4 @@
 # requirements.txt
 ursina
 perlin-noise
+urdf-parser-py

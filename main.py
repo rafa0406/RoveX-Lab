@@ -13,63 +13,58 @@ class ProgressBar(Entity):
             position=(0, 0.05), color=color.dark_gray)
         self.bar = Entity(parent=self, model='quad', color=color.azure,
             origin=(-0.5, 0), position=(-0.5, 0), scale=(0, 1))
-        self.text = Text(parent=self, text="Génération du Terrain...",
+        self.text = Text(parent=self, text="Generation du Terrain...",
             origin=(0, -2.5), color=color.white)
-
+            
     def set_progress(self, value):
         self.bar.scale_x = value
         if value < 1:
-            self.text.text = f"Génération des vertices... {int(value * 100)}%"
+            self.text.text = f"Generation des vertices... {int(value * 100)}%"
 
 if __name__ == '__main__':
     app = Ursina(title='RoverX Lab', size=(1280, 720), vsync=True, borderless=False)
 
-    ground = None
+    ground = None; rover = None
     log_window = LogWindow()
     progress_bar = ProgressBar()
-    log_window.log("Application initialisée.")
+    log_window.log("Application initialisee.")
     env_controller = EnvironmentController(logger=log_window)
 
     def start_simulation():
-        """
-        Cette fonction est appelée après que le terrain est généré et prêt.
-        """
         global rover
-        log_window.log("Création des éléments de simulation...")
-
+        log_window.log("Creation des elements de simulation...")
+        
         obstacles = env_controller.place_obstacles(ground)
-
+        
         safe_spawn_pos = (0, 25, 0)
-        log_window.log(f"Création du rover à une altitude sûre : {safe_spawn_pos}", "debug")
-
-        # On crée l'instance du rover. La classe Rover s'occupe du reste
-        # en lisant le chemin URDF depuis config.py.
+        log_window.log(f"Creation du rover depuis URDF: {config.ROVER_URDF_PATH}", "debug")
+        
+        # --- CORRECTION ---
+        # On passe le chemin du fichier URDF au constructeur du Rover.
         rover = Rover(
-            ground=ground,
-            obstacles=obstacles,
-            logger=log_window,
-            position=safe_spawn_pos
+            ground=ground, 
+            obstacles=obstacles, 
+            logger=log_window, 
+            position=safe_spawn_pos,
+            urdf_path=config.ROVER_URDF_PATH # Nouvel argument
         )
-
-        log_window.log("Simulation prête. Déplacement : flèches.", "success")
+            
+        log_window.log("Simulation prete. Deplacement : fleches.", "success")
 
 
     def on_generation_complete():
-        log_window.log("Maillage du terrain terminé. Initialisation de la physique...")
+        log_window.log("Maillage du terrain termine. Initialisation de la physique...")
         invoke(start_simulation, delay=0.1)
 
-    # Initialisation de la génération du terrain
     ground = Entity()
     env_controller.start_terrain_generation(
         ground_entity=ground, progress_bar=progress_bar,
         on_complete=on_generation_complete)
 
-    # Configuration de la scène
     window.color = color.black
-    sun = DirectionalLight(y=50, z=50, x=50, shadows=True)
-    ambient = AmbientLight(color=color.rgba(100, 100, 100, 0.1))
+    sun = DirectionalLight(color=Vec4(1, 0.9, 0.8, 1), y=50, z=50, x=50, shadows=True)
+    ambient = AmbientLight(color=Vec4(0.15, 0.15, 0.15, 1))
     
-    # Caméra libre pour le débogage
     EditorCamera(rotation_speed=200, pan_speed=(50, 50), zoom_speed=1.5)
 
     app.run()
