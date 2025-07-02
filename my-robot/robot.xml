@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/f6c131e0b382b911c5ad04b8/w/5d462194037e095bafb1c40a/e/775f3571fb1d72b5a3aa46b8 -->
+<mujoco model="C:\Users\r.canovas\REPOS\RoveX-Lab\my-robot">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <default>
+    <default class="C:\Users\r.canovas\REPOS\RoveX-Lab\my-robot">
+      <joint frictionloss="0.1" armature="0.005"/>
+      <position kp="50" dampratio="1"/>
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom group="3"/>
+      </default>
+    </default>
+  </default>
+  <worldbody>
+    <!-- Link chassis -->
+    <body name="chassis" pos="0 0 0" quat="1 0 0 0" childclass="C:\Users\r.canovas\REPOS\RoveX-Lab\my-robot">
+      <inertial pos="-0.129578 0.342135 0.0478285" mass="814.758" fullinertia="43.4772 103.696 123.607 -1.77636e-14 3.29761 1.62093e-14"/>
+      <!-- Part chassis -->
+      <geom type="mesh" class="visual" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="chassis" material="chassis_material"/>
+      <geom type="mesh" class="collision" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="chassis" material="chassis_material"/>
+      <!-- Part rocker_arm_left -->
+      <geom type="mesh" class="visual" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="rocker_arm_left" material="rocker_arm_left_material"/>
+      <geom type="mesh" class="collision" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="rocker_arm_left" material="rocker_arm_left_material"/>
+      <!-- Part rocker_arm_right -->
+      <geom type="mesh" class="visual" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="rocker_arm_right" material="rocker_arm_right_material"/>
+      <geom type="mesh" class="collision" pos="-0.17145 0.342135 0.0616818" quat="1 0 0 0" mesh="rocker_arm_right" material="rocker_arm_right_material"/>
+    </body>
+  </worldbody>
+  <asset>
+    <mesh file="rocker_arm_right.stl"/>
+    <mesh file="chassis.stl"/>
+    <mesh file="rocker_arm_left.stl"/>
+    <material name="chassis_material" rgba="0.701961 0.682353 0.623529 1"/>
+    <material name="rocker_arm_left_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="rocker_arm_right_material" rgba="0.647059 0.647059 0.647059 1"/>
+  </asset>
+  <actuator/>
+  <equality/>
+</mujoco>
