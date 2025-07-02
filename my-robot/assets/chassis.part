@@ -1,0 +1,13 @@
+{
+    "configuration": "default",
+    "documentId": "f6c131e0b382b911c5ad04b8",
+    "documentMicroversion": "81f2b768ce64f8dd83ba6ba0",
+    "elementId": "7b7e433ae39d137eec557326",
+    "fullConfiguration": "default",
+    "id": "MAtd9nE2XBSvJoved",
+    "isStandardContent": false,
+    "name": "chassis <1>",
+    "partId": "JHD",
+    "suppressed": false,
+    "type": "Part"
+}

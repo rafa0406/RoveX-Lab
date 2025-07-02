@@ -1,5 +1,8 @@
 # config.py
 
+# --- fichier de description du rover ---
+ROVER_URDF_PATH = "my-robot/robot.urdf"
+
 # --- Parametres de Generation du Monde ---
 TERRAIN_SIZE = 50
 TERRAIN_SEGMENTS = 10  # Vous pouvez laisser cette valeur haute maintenant

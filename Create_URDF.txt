@@ -1,4 +1,10 @@
 Modifier le fichier /my-robot/config.txt en ajoutant l'url de votre model d'assemblage Onshape du robot
+Et le fichier .env doit contenir les slés API
+
+Dans une console DOS:
+cd "mon_projet"
+
+python -m venv my_robot_env
 
 Puis lancer la commande:
 onshape-to-robot my-robot

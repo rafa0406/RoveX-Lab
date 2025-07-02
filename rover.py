@@ -1,104 +1,128 @@
-# rover.py (version révisée pour assemblage complet)
-from ursina import Entity, color, Vec3, Quat, lerp, slerp, raycast, held_keys, time, destroy
+# rover.py
+from ursina import Entity, color, Vec3, Quat, lerp, slerp, raycast, held_keys, time, destroy, scene
 from ursina.shaders import lit_with_shadows_shader
+from urdf_parser_py.urdf import URDF
 import config
+import os
+import math
 
 class Rover(Entity):
-    def __init__(self, ground, obstacles, logger, assembly_path, **kwargs):
-        # On charge l'ENTIER de l'assemblage GLTF
-        super().__init__(
-            model=assembly_path,
-            shader=lit_with_shadows_shader,
-            cast_shadows=True,
-            **kwargs
-        )
-
+    def __init__(self, ground, obstacles, logger, **kwargs):
+        super().__init__(**kwargs)
+        
         self.ground = ground
         self.obstacles = obstacles
         self.logger = logger
-
-        # Dictionnaires pour stocker les références aux parties mobiles
-        self.wheels = {}
-        self.body = None
-
-        # Appliquer un collider global pour la physique générale
-        self.collider = 'box'
         
-        # Lancer la recherche récursive des pièces importantes dans le modèle chargé
-        self._find_parts_in_hierarchy()
+        # Dictionnaires pour stocker les entités et les informations des articulations
+        self.links = {}
+        self.joints = {}
+        self.wheels = []
+        self.root_link = None # Pièce principale du rover (châssis)
         
-        # Appliquer la correction d'orientation globale
-        self.rotation_y = 90
-        
-    def _find_parts_in_hierarchy(self):
-        """
-        Parcourt la hiérarchie du modèle chargé pour trouver, par leur nom, les entités 
-        qui nous intéressent (roues, châssis) et les stocker.
-        """
-        self.logger.log("Recherche des pièces dans la hiérarchie du modèle...", "info")
+        self.logger.log("Initialisation du chargement depuis l'URDF...", "info")
+        self._setup_from_urdf(config.ROVER_URDF_PATH)
 
-        # Le nom des pièces doit correspondre à ce qui est défini dans Onshape
-        WHEEL_NAMES = [
-            'weel_left_front', 'weel_right_front',
-            'weel_left_midle', 'weel_right_midle',
-            'weel_left_rear', 'weel_right_rear'
-        ]
-        BODY_NAME = 'chassis'
-
-        # `self.children` contient la hiérarchie directe du GLTF
-        for entity in self.walk(): # .walk() parcourt tous les descendants
-            # On cherche une correspondance partielle du nom
-            if BODY_NAME in entity.name:
-                self.body = entity
-                self.logger.log(f"-> Corps principal trouvé: '{entity.name}'", "success")
-                entity.shader = lit_with_shadows_shader # Assurer que le shader est appliqué
-
-            for wheel_name in WHEEL_NAMES:
-                if wheel_name in entity.name:
-                    # La clé sera le nom complet trouvé, ex: 'ROVER_V1 - weel_left_front'
-                    self.wheels[entity.name] = entity
-                    self.logger.log(f"-> Roue trouvée: '{entity.name}'", "success")
-                    entity.shader = lit_with_shadows_shader
-
-        if not self.body:
-            self.logger.log("ERREUR: Le corps du rover n'a pas été trouvé. Vérifiez le nom 'chassis' dans votre modèle.", "error")
-        if not self.wheels:
-            self.logger.log("AVERTISSEMENT: Aucune roue n'a été trouvée. Vérifiez les noms des roues.", "error")
-
-    def update(self):
-        if not self.body:
+    def _setup_from_urdf(self, urdf_path):
+        try:
+            robot = URDF.from_xml_file(urdf_path)
+            self.logger.log(f"Robot '{robot.name}' chargé depuis l'URDF.", "success")
+        except Exception as e:
+            self.logger.log(f"ERREUR CRITIQUE: Impossible de lire le fichier URDF '{urdf_path}'. Erreur: {e}", "error")
             return
 
-        # La physique et les contrôles s'appliquent à l'entité parente 'self'
-        ray = raycast(self.world_position + self.up*2, self.down, ignore=[self], distance=10)
+        base_path = os.path.dirname(urdf_path)
+        self.root_link = self.links.get(robot.get_root())
+
+        # Étape 1 : Créer toutes les entités "pivot" pour chaque pièce
+        for link in robot.links:
+            pivot = Entity(parent=self, name=link.name)
+            self.links[link.name] = pivot
+            
+            # Charger le modèle 3D comme un enfant du pivot
+            if link.visual and link.visual.geometry and hasattr(link.visual.geometry, 'filename'):
+                mesh_filename = link.visual.geometry.filename
+                if mesh_filename.startswith('package://'):
+                    mesh_filename = mesh_filename.split('//', 1)[1]
+                
+                full_mesh_path = os.path.join(base_path, mesh_filename).replace("\\", "/")
+
+                Entity(
+                    parent=pivot,
+                    model=full_mesh_path,
+                    shader=lit_with_shadows_shader,
+                    cast_shadows=True,
+                    # Rotation pour aligner le modèle si nécessaire (dépend de l'export)
+                    rotation_y=90 
+                )
+                self.logger.log(f"-> Lien '{link.name}' créé avec le modèle '{full_mesh_path}'", "debug")
+
+        # Étape 2 : Connecter les pivots en fonction des articulations
+        for joint in robot.joints:
+            parent_link = self.links.get(joint.parent)
+            child_link = self.links.get(joint.child)
+
+            if parent_link and child_link:
+                child_link.parent = parent_link
+
+                if joint.origin:
+                    child_link.position = Vec3(*joint.origin.xyz)
+                    r, p, y = [math.degrees(angle) for angle in joint.origin.rpy]
+                    child_link.rotation = Vec3(r, p, y)
+                
+                self.joints[joint.name] = {
+                    'parent': parent_link, 
+                    'child': child_link, 
+                    'axis': Vec3(*joint.axis) if joint.axis else Vec3(0,0,1),
+                    'type': joint.type
+                }
+                
+                # Identifier les roues pour l'animation
+                if 'wheel' in joint.name or 'roue' in joint.name:
+                    self.wheels.append(self.joints[joint.name])
+                    self.logger.log(f"-> Roue identifiée sur l'articulation '{joint.name}'", "debug")
+        
+        self.logger.log("Construction du rover depuis l'URDF terminée.", "success")
+        
+        # Le collider principal est placé sur l'entité racine du rover
+        self.collider = 'box'
+
+    def update(self):
+        if not self.links:
+            return # Ne rien faire si le chargement a échoué
+
+        # --- Physique : Gravité et adaptation au terrain ---
+        ray = raycast(self.world_position + self.up * 2, self.down, ignore=[self, *self.children], distance=10)
         
         if ray.hit and ray.entity == self.ground:
             target_y = ray.world_point.y + config.RIDE_HEIGHT
             self.y = lerp(self.y, target_y, time.dt * config.TERRAIN_FOLLOW_SMOOTHNESS)
             
-            calculator = Entity(position=self.position, add_to_scene_entities=False)
-            calculator.look_at(self.world_position + self.forward, up=ray.world_normal)
-            target_quat = calculator.quaternion
-            destroy(calculator)
-            
+            # Adaptation de l'inclinaison du rover à la pente
+            target_quat = Quat()
+            target_quat.look_at(self.forward, direction=ray.world_normal)
             self.quaternion = slerp(self.quaternion, target_quat, time.dt * config.TERRAIN_ADAPTATION_SMOOTHNESS)
-        else: 
+        else:
             self.y -= config.GRAVITY_STRENGTH * time.dt
-        
+            
+        # --- Contrôles ---
         rotation_input = held_keys['left arrow'] - held_keys['right arrow']
         self.rotation_y -= rotation_input * config.ROVER_ROTATION_SPEED * time.dt
         
         move_direction = held_keys['up arrow'] - held_keys['down arrow']
         
         if move_direction != 0:
-            if not self.intersects(ignore=[self, self.ground]).hit:
-                move_vec = self.forward * move_direction * config.ROVER_SPEED * time.dt
-                self.position += move_vec
+            move_vec = self.forward * move_direction * config.ROVER_SPEED * time.dt
+            # La détection de collision se fait sur l'entité principale
+            if not self.intersects(ignore=[self, self.ground, *self.children]).hit:
+                 self.position += move_vec
             else:
-                self.logger.log("Alerte: Collision!", "error")
-        
-        # Rotation des roues trouvées dans la hiérarchie
+                 self.logger.log("Alerte: Collision!", "error")
+
+        # --- Animation des articulations (exemple avec les roues) ---
         if move_direction != 0:
-            for wheel_entity in self.wheels.values():
-                # L'axe de rotation dépend de l'orientation de la pièce dans l'assemblage
-                wheel_entity.rotation_x -= move_direction * 200 * time.dt
+            for wheel_joint in self.wheels:
+                # On fait tourner le PIVOT de la roue autour de son axe
+                rotation_axis = wheel_joint['axis']
+                pivot_to_rotate = wheel_joint['child']
+                pivot_to_rotate.rotate(rotation_axis * move_direction * -200 * time.dt)

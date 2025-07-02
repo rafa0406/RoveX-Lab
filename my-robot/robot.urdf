@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/f6c131e0b382b911c5ad04b8/w/5d462194037e095bafb1c40a/e/775f3571fb1d72b5a3aa46b8 -->
+<robot name="C:\Users\r.canovas\REPOS\RoveX-Lab\my-robot">
+  <!-- Link chassis -->
+  <link name="chassis">
+    <inertial>
+      <origin xyz="-0.129578 0.342135 0.0478285" rpy="0 0 0"/>
+      <mass value="814.758"/>
+      <inertia ixx="43.4772" ixy="-1.77636e-14" ixz="3.29761" iyy="103.696" iyz="1.62093e-14" izz="123.607"/>
+    </inertial>
+    <!-- Part chassis -->
+    <visual>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\chassis.stl"/>
+      </geometry>
+      <material name="chassis_material">
+        <color rgba="0.701961 0.682353 0.623529 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\chassis.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rocker_arm_left -->
+    <visual>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="-3.08149e-33 -0 -1.54074e-32"/>
+      <geometry>
+        <mesh filename="package://assets\rocker_arm_left.stl"/>
+      </geometry>
+      <material name="rocker_arm_left_material">
+        <color rgba="0.647059 0.647059 0.647059 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="-3.08149e-33 -0 -1.54074e-32"/>
+      <geometry>
+        <mesh filename="package://assets\rocker_arm_left.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part rocker_arm_right -->
+    <visual>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="2.11483e-29 -0 -2.63775e-30"/>
+      <geometry>
+        <mesh filename="package://assets\rocker_arm_right.stl"/>
+      </geometry>
+      <material name="rocker_arm_right_material">
+        <color rgba="0.647059 0.647059 0.647059 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.17145 0.342135 0.0616818" rpy="2.11483e-29 -0 -2.63775e-30"/>
+      <geometry>
+        <mesh filename="package://assets\rocker_arm_right.stl"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
