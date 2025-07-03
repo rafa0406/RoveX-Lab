@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
 <!-- Generated using onshape-to-robot -->
-<!-- Onshape https://cad.onshape.com/documents/f6c131e0b382b911c5ad04b8/w/5d462194037e095bafb1c40a/e/74fb184207e34dc80b0fa883 -->
+<!-- Onshape https://cad.onshape.com/documents/f6c131e0b382b911c5ad04b8/w/5d462194037e095bafb1c40a/e/775f3571fb1d72b5a3aa46b8 -->
 <robot name="RoverX_Suspension_Test">
-  <!-- Link assembly_rover_v1 -->
-  <link name="assembly_rover_v1">
+  <!-- Link chassis -->
+  <link name="chassis">
     <inertial>
-      <origin xyz="-0.790743 0.191508 0.967244" rpy="0 0 0"/>
+      <origin xyz="-0.334962 0.186054 0.588728" rpy="0 0 0"/>
       <mass value="1187.5"/>
       <inertia ixx="238.367" ixy="2.30027" ixz="20.0349" iyy="317.473" iyz="2.60807" izz="394.6"/>
     </inertial>
     <!-- Part chassis -->
     <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\chassis.stl"/>
       </geometry>
@@ -20,14 +20,14 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\chassis.stl"/>
       </geometry>
     </collision>
     <!-- Part head_camera -->
     <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\head_camera.stl"/>
       </geometry>
@@ -36,142 +36,14 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\head_camera.stl"/>
       </geometry>
     </collision>
-    <!-- Part knuckle_lr -->
-    <visual>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lr.stl"/>
-      </geometry>
-      <material name="knuckle_lr_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lr.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_lr -->
-    <visual>
-      <origin xyz="-2.34058 0.240956 0.820202" rpy="-3.14159 -1.06011 3.14159"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lr.stl"/>
-      </geometry>
-      <material name="wheel_lr_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-2.34058 0.240956 0.820202" rpy="-3.14159 -1.06011 3.14159"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lr.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_rf -->
-    <visual>
-      <origin xyz="-0.751982 0.150476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rf.stl"/>
-      </geometry>
-      <material name="wheel_rf_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.150476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rf.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part knuckle_rf -->
-    <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rf.stl"/>
-      </geometry>
-      <material name="knuckle_rf_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rf.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_lf -->
-    <visual>
-      <origin xyz="-0.751982 0.240476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lf.stl"/>
-      </geometry>
-      <material name="wheel_lf_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.240476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lf.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part knuckle_lf -->
-    <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lf.stl"/>
-      </geometry>
-      <material name="knuckle_lf_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lf.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_rm -->
-    <visual>
-      <origin xyz="-0.751982 0.149996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rm.stl"/>
-      </geometry>
-      <material name="wheel_rm_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.149996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rm.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part knuckle_rm -->
-    <visual>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rm.stl"/>
-      </geometry>
-      <material name="knuckle_rm_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rm.stl"/>
-      </geometry>
-    </collision>
     <!-- Part rocker_arm_r -->
     <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\rocker_arm_r.stl"/>
       </geometry>
@@ -180,14 +52,14 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\rocker_arm_r.stl"/>
       </geometry>
     </collision>
     <!-- Part bogie_arm_r -->
     <visual>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\bogie_arm_r.stl"/>
       </geometry>
@@ -196,78 +68,14 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\bogie_arm_r.stl"/>
       </geometry>
     </collision>
-    <!-- Part knuckle_lm -->
-    <visual>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lm.stl"/>
-      </geometry>
-      <material name="knuckle_lm_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_lm.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_lm -->
-    <visual>
-      <origin xyz="-0.751982 0.240956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lm.stl"/>
-      </geometry>
-      <material name="wheel_lm_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.240956 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_lm.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part knuckle_rr -->
-    <visual>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rr.stl"/>
-      </geometry>
-      <material name="knuckle_rr_material">
-        <color rgba="0.701961 0.701961 0.701961 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.194996 1.0593" rpy="0 -0 0"/>
-      <geometry>
-        <mesh filename="package://assets\knuckle_rr.stl"/>
-      </geometry>
-    </collision>
-    <!-- Part wheel_rr -->
-    <visual>
-      <origin xyz="-0.751982 0.149996 1.0593" rpy="5.56531e-34 6.84722e-09 4.19271e-25"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rr.stl"/>
-      </geometry>
-      <material name="wheel_rr_material">
-        <color rgba="0.14902 0.180392 0.219608 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.751982 0.149996 1.0593" rpy="5.56531e-34 6.84722e-09 4.19271e-25"/>
-      <geometry>
-        <mesh filename="package://assets\wheel_rr.stl"/>
-      </geometry>
-    </collision>
     <!-- Part bogie_arm_l -->
     <visual>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\bogie_arm_l.stl"/>
       </geometry>
@@ -276,14 +84,14 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.195956 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\bogie_arm_l.stl"/>
       </geometry>
     </collision>
     <!-- Part rocker_arm_l -->
     <visual>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\rocker_arm_l.stl"/>
       </geometry>
@@ -292,9 +100,201 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.751982 0.195476 1.0593" rpy="0 -0 0"/>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
       <geometry>
         <mesh filename="package://assets\rocker_arm_l.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_rm -->
+    <visual>
+      <origin xyz="-0.296201 0.144542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rm.stl"/>
+      </geometry>
+      <material name="wheel_rm_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.144542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_rm -->
+    <visual>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rm.stl"/>
+      </geometry>
+      <material name="knuckle_rm_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_rf -->
+    <visual>
+      <origin xyz="-0.296201 0.145022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rf.stl"/>
+      </geometry>
+      <material name="wheel_rf_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.145022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rf.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_rf -->
+    <visual>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rf.stl"/>
+      </geometry>
+      <material name="knuckle_rf_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rf.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_rr -->
+    <visual>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rr.stl"/>
+      </geometry>
+      <material name="knuckle_rr_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.189542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_rr.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_rr -->
+    <visual>
+      <origin xyz="-0.296201 0.144542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rr.stl"/>
+      </geometry>
+      <material name="wheel_rr_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.144542 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_rr.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_lm -->
+    <visual>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lm.stl"/>
+      </geometry>
+      <material name="knuckle_lm_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_lm -->
+    <visual>
+      <origin xyz="-0.296201 0.235502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lm.stl"/>
+      </geometry>
+      <material name="wheel_lm_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.235502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lm.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_lf -->
+    <visual>
+      <origin xyz="-0.296201 0.235022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lf.stl"/>
+      </geometry>
+      <material name="wheel_lf_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.235022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lf.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_lf -->
+    <visual>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lf.stl"/>
+      </geometry>
+      <material name="knuckle_lf_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.190022 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lf.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part knuckle_lr -->
+    <visual>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lr.stl"/>
+      </geometry>
+      <material name="knuckle_lr_material">
+        <color rgba="0.701961 0.701961 0.701961 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.296201 0.190502 0.680785" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="package://assets\knuckle_lr.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part wheel_lr -->
+    <visual>
+      <origin xyz="-1.8848 0.235502 0.441685" rpy="-3.14159 -1.06011 3.14159"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lr.stl"/>
+      </geometry>
+      <material name="wheel_lr_material">
+        <color rgba="0.14902 0.180392 0.219608 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1.8848 0.235502 0.441685" rpy="-3.14159 -1.06011 3.14159"/>
+      <geometry>
+        <mesh filename="package://assets\wheel_lr.stl"/>
       </geometry>
     </collision>
   </link>
