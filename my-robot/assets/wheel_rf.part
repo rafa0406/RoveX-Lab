@@ -4,10 +4,10 @@
     "documentMicroversion": "240b833643d1e08301fdef28",
     "elementId": "7b7e433ae39d137eec557326",
     "fullConfiguration": "default",
-    "id": "M+hjmaGtjH7MY8/41",
+    "id": "MEDcXPddQLHlZdmbG",
     "isStandardContent": false,
-    "name": "chassis <1>",
-    "partId": "JHD",
+    "name": "wheel_RF <1>",
+    "partId": "RSBj",
     "suppressed": false,
     "type": "Part"
 }

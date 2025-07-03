@@ -3,3 +3,4 @@
 ursina
 perlin-noise
 urdf-parser-py
+pybullet

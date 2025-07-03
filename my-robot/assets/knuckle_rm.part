@@ -4,10 +4,10 @@
     "documentMicroversion": "240b833643d1e08301fdef28",
     "elementId": "7b7e433ae39d137eec557326",
     "fullConfiguration": "default",
-    "id": "M+hjmaGtjH7MY8/41",
+    "id": "MYR+zMgYA48p2BxN+",
     "isStandardContent": false,
-    "name": "chassis <1>",
-    "partId": "JHD",
+    "name": "knuckle_RM <1>",
+    "partId": "RSBH",
     "suppressed": false,
     "type": "Part"
 }
