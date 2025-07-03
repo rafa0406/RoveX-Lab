@@ -1,17 +1,89 @@
 {
-    "robotName": "RoverX_Suspension_Test",
     "url": "https://cad.onshape.com/documents/f6c131e0b382b911c5ad04b8/w/5d462194037e095bafb1c40a/e/775f3571fb1d72b5a3aa46b8",
     "output_format": "urdf",
+    "package_name": "roverx_lab",
+    "set_zero_mass_to_fixed": true,
+    "additional_xml": "",
 
-    "useFixedLinks": false,
-    "drawCollisions": false,
-    "noDynamics": false,
-
-    "root": "chassis",
-
-    "joint": {
-        "chassis_rocker_arm_*": { "type": "revolute" }
-    },
-    
-    "urdf_package_name": "roverx_description"
+    "joint_properties": {
+        "*": {
+            "max_effort": 15.0,
+            "max_velocity": 8.0,
+            "friction": 0.5
+        },
+        "Pivot_camera_to_chassis": {
+            "type": "revolute",
+            "limits": [-180.0, 180.0]
+        },
+        "Pivot_rocker_bogie_R_to_chassis": {
+            "type": "revolute",
+            "limits": [-30.0, 30.0]
+        },
+        "Pivot_rocker_bogie_L_to_chassis": {
+            "type": "revolute",
+            "limits": [-30.0, 30.0]
+        },
+        "Pivot_bogie_R_to_rocker_R": {
+            "type": "revolute",
+            "limits": [-30.0, 30.0]
+        },
+        "Pivot_bogie_L_to_rocker_L": {
+            "type": "revolute",
+            "limits": [-30.0, 30.0]
+        },
+        "Pivot_knuckle_wheel_RR_to_bogie_R": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_knuckle_wheel_RM_to_bogie_R": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_knuckle_wheel_RF_to_bogie_R": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_knuckle_wheel_LR_to_bogie_L": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_knuckle_wheel_LF_to_bogie_L": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_knuckle_wheel_LM_to_bogie_L": {
+            "type": "revolute",
+            "limits": [-90.0, 90.0]
+        },
+        "Pivot_wheel_RF_to_knuckle_RF": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        },
+        "Pivot_wheel_RM_to_knuckle_RM": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        },
+        "Pivot_wheel_RR_to_knuckle_RR": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        },
+        "Pivot_wheel_LF_to_knuckle_LF": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        },
+        "Pivot_wheel_LM_to_knuckle_LM": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        },
+        "Pivot_wheel_LR_to_knuckle_LR": {
+            "type": "continuous",
+            "max_effort": 25.0,
+            "max_velocity": 12.0
+        }
+    }
 }
